@@ -25,8 +25,10 @@
             </div>
           </th>
         </tr>
-        <notes v-for="info in information" :key="info.id" :information="info" @selected="selectedBox">
+        <notes v-for="info in information" :key="info.id" :information="info" :selectedInfo="selected"
+          @selected="selectedBox" >
         </notes>
+        <!-- @selectAllBoxes="deleteNote" -->
       </table>
       <button class="blueBackground" @click="submitNote">Add</button>
     </div>
@@ -37,7 +39,7 @@
           <fa icon="triangle-exclamation" /> Do you want to delete this note?
         </div>
         <div class="buttons"><button @click="cancelAction">No</button>
-          <button @selectAllBoxes="deleteNote">Yes</button>
+          <button @click="deleteNote">Yes</button>
         </div>
       </article>
     </footer>
@@ -50,7 +52,6 @@ export default {
   data() {
     return {
       submitted: false,
-
       information: [{
         id: 1,
         title: "delectus aut autem",
@@ -70,10 +71,12 @@ export default {
         status: "Not completed"
       }],
       allSelected: false,
-      selected: []
+      selected: [],
     }
   },
   methods: {
+   
+    
     submitNote() {
       this.submitted = !this.submitted
     },
@@ -91,15 +94,28 @@ export default {
       this.selected = []
     },
     deleteNote() {
+      // let newArr=this.information.filter(item => {
+      //   return !this.selected.includes(item.id)})
+      // console.log(newArr)
+            // this.information.splice(i, 1)
+
       for (let i = 0; i < this.information.length; i++) {
         for (let j = 0; j < this.selected.length; j++) {
           if (i === j) {
-            this.information.splice(i + 1, 1)
+            if(this.allSelected){
+              this.information=[]
+              this.selected=[]
+              this.submitted=false
+            }
+            console.log(`i=${i} and j=${j}`)
+            this.information.splice(i+1 , 1)
           }
         }
       }
-    },
+    }
+    ,
     selectAllBoxes() {
+      this.submitted = true
       this.allSelected = !this.allSelected
       if (this.allSelected) {
         for (let i in this.information) {
@@ -107,12 +123,13 @@ export default {
         }
       } else {
         this.selected = []
+
       }
 
     },
     selectedBox(selectedId) {
-      this.selected.push(selectedId)
       this.submitted = true
+      this.selected.push(selectedId)
     },
 
   },
