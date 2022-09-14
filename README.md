@@ -3,6 +3,7 @@
 
 All the styles have been done in the <style></style> section that is being given by Vue. I could have done it in a seperate file with better naming conventions
 and making the code DRY'er but I have decided to make everything in every component so that it can be seen that I know how to do it that way.
+The icons of sorting and the danger button are not exactly the same as I have the free account icons from fontawesome and thats the only way I know how to add icons for the time being.
 
 The main application page is the App.vue
 There are 3 components: NewNote,Notes,StatisticsSection.
